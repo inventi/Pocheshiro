@@ -4,3 +4,6 @@ pom.xml
 /classes/
 /targets/
 .lein-deps-sum
+.lein-classpath
+.lein-failures
+target
