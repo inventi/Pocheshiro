@@ -107,13 +107,13 @@ Web applications will need an instance of `WebSecurityManager`.
 
 (def app
   (shiro/wrap-security
-    (shiro/wrap-principal (handler/site main-routes))
+    (shiro/wrap-principal (handler/site #'main-routes))
     {:security-manager-retriever (constantly security-manager)}))
 ```
 
 Security manager is retrieved in a function in order to facilitate extracting
 it from the `system` contained in the request, [Stuart Sierra
-style](https://github.com/stuartsierra/reloaded/commits/master)
+style](https://github.com/stuartsierra/reloaded).
 
 #### Logging in and out
 
@@ -161,8 +161,10 @@ a redirect to the URI visited before being redirected to the login page (or the
     (wrap-enforce (authorized {:roles #{:manager}})
                   manager-routes)
 
-  ; We can extract the primary principal from the request
-  ; If the `wrap-principal` middleware was used when defining the Ring handler
+  ; We can extract the primary principal from the request if the
+  ; `wrap-principal` middleware was used when defining the Ring handler.
+  ; In this case `user` is equal to the username provided to the
+  ; `register-user!` above (as that's what we return from the realm).
   (GET "/anonymous-only-at-midnight" [{:keys [user]}]
     (enforce (or* authenticated
                   (authorized #(= dates/midnight (dates/now))))
