@@ -1,4 +1,4 @@
-(defproject pocheshiro "0.1.1"
+(defproject pocheshiro "0.1.2-SNAPSHOT"
   :description "Clojure wrapper for Apache Shiro"
   :min-lein-version "2.0.0"
   :dependencies [[org.apache.shiro/shiro-web "1.2.2"]

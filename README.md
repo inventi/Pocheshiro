@@ -22,7 +22,7 @@ security is a sensitive part of any application.
 ### Usage
 
 ```clj
-[pocheshiro "0.1.0"]
+[pocheshiro "0.1.1"]
 ```
 Pocheshiro is a thin wrapper so you will need to use some of the Shiro classes
 directly.  Let's see what we're going to need in order to provided a
