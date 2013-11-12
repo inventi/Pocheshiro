@@ -7,3 +7,4 @@ pom.xml
 .lein-classpath
 .lein-failures
 target
+*.asc
