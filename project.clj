@@ -6,5 +6,8 @@
                  [org.mindrot/jbcrypt "0.3m"]]
   :license {:name "MIT License"
             :url "http://choosealicense.com/licenses/mit/"}
+  :url "http://github.com/inventiLT/Pocheshiro"
+  :scm {:name "git"
+        :url "http://github.com/inventiLT/Pocheshiro"}
   :profiles {:dev {:dependencies [[compojure "1.1.5"]
                                   [javax.servlet/servlet-api "2.5"]]}})
