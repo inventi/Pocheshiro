@@ -42,7 +42,7 @@ password hashing needs.
 
 (def users (atom {}))
 
-(def bcrypted-passwords (shiro/bcrypt-passwords))
+(def bcrypted-passwords (shiro/bcrypt-passwords {}))
 
 (defn register-user! [{:keys [username password
                               roles permissions]}]
@@ -81,12 +81,12 @@ function together with a stub handling username/password authentication -
   (shiro/username-password-realm
     :passwords bcrypted-passwords
     :get-authentication
-      #(if-let [user (get users (.getPrincipal %))]
+      #(if-let [user (get @users (.getPrincipal %))]
         {:principal (:username user)
          :credentials (:password-hash user)})
     :get-authorization
-      #(if-let [user (get users (.getPrimaryPrincipal %))]
-        (select-keys user [:roles :permissions)))
+      #(if-let [user (get @users (.getPrimaryPrincipal %))]
+        (select-keys user [:roles :permissions]))))
 ```
 
 #### Defining the middleware
@@ -98,7 +98,7 @@ set all of the settings, add listeners and other options provided by Shiro.
 Web applications will need an instance of `WebSecurityManager`.
 
 ```clj
-(import 'org.apache.shiro.web.mgmt.DefaultWebSecurityManager)
+(import 'org.apache.shiro.web.mgt.DefaultWebSecurityManager)
 (require '[compojure.handler :as handler])
 
 (def security-manager (DefaultWebSecurityManager. [inmemory-realm]))
@@ -134,14 +134,14 @@ a redirect to the URI visited before being redirected to the login page (or the
 (require '[compojure.core :refer [GET POST context defroutes]])
 
 (defroutes main-routes
-  (POST "/login" [{:keys [params] :as request}]
+  (POST "/login" {:keys [params] :as request}
     (shiro/login! (UsernamePasswordToken. (:username params)
-                                          (:password params))
+                                          (:password params)))
     (shiro/redirect-after-login! request "/index"))
 
   (GET "/logout" request
     (shiro/logout!)
-    {:status 200, :body "You have been logged out!"}))
+    {:status 200, :body "You have been logged out!"})
 
   ...
 ```
@@ -184,11 +184,11 @@ anything, but if you run in a `Jetty`, you will need to configure it properly:
 
 (defn run [handler]
   (jetty/run-jetty handler
-    (:port 8080
+    {:port 8080
      :configurator
        #(.setHandler %
           (doto (ServletContextHandler.)
-            (.addServlet (ServletHolder. (servlet/servlet handler)) "/*")))))))
+            (.addServlet (ServletHolder. (servlet/servlet handler)) "/*")))})))
 ```
 
 ### License
