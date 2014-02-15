@@ -1,5 +1,7 @@
 # Pocheshiro
 
+[![Build Status](https://travis-ci.org/inventiLT/Pocheshiro.png?branch=master)](https://travis-ci.org/inventiLT/Pocheshiro)
+
 Pocheshiro is a Clojure wrapper for the [Apache
 Shiro](http://shiro.apache.org/) security library tailored for use with
 [Ring](https://github.com/ring-clojure/ring) and
