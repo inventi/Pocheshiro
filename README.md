@@ -7,7 +7,7 @@ Shiro](http://shiro.apache.org/) security library tailored for use with
 
 Pocheshiro must be run in a servlet container (sorry, no
 [http-kit](http://http-kit.org/) because Shiro depends on the servlet
-specification.
+specification).
 
 ### Motivation
 
